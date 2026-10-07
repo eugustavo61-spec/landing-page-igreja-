@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Igreja - Bem-vindos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blue: {
+                            900: '#0F172A',
+                            800: '#1E293B',
+                        },
+                        gold: {
+                            500: '#D4AF37',
+                            600: '#B5952F',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+
+    <!-- Navegação -->
+    <nav class="fixed w-full bg-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="font-serif font-bold text-2xl text-blue-900">Nossa<span class="text-gold-500">Igreja</span></a>
+                </div>
+                <!-- Menu Desktop -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#historia" class="text-gray-600 hover:text-gold-500 transition">Nossa História</a>
+                    <a href="#lideranca" class="text-gray-600 hover:text-gold-500 transition">Liderança</a>
+                    <a href="#horarios" class="text-gray-600 hover:text-gold-500 transition">Horários</a>
+                    <a href="#localizacao" class="text-gray-600 hover:text-gold-500 transition">Localização</a>
+                    <a href="#galeria" class="text-gray-600 hover:text-gold-500 transition">Galeria</a>
+                    <a href="#contribuir" class="bg-gold-500 text-white px-5 py-2 rounded-md font-semibold hover:bg-gold-600 transition">Contribuir</a>
+                </div>
+                <!-- Botão Mobile -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <a href="#historia" class="block px-4 py-3 text-gray-600 hover:bg-gray-50">Nossa História</a>
+            <a href="#lideranca" class="block px-4 py-3 text-gray-600 hover:bg-gray-50">Liderança</a>
+            <a href="#horarios" class="block px-4 py-3 text-gray-600 hover:bg-gray-50">Horários</a>
+            <a href="#localizacao" class="block px-4 py-3 text-gray-600 hover:bg-gray-50">Localização</a>
+            <a href="#galeria" class="block px-4 py-3 text-gray-600 hover:bg-gray-50">Galeria</a>
+            <a href="#contribuir" class="block px-4 py-3 text-gold-500 font-semibold hover:bg-gray-50">Contribuir</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-screen flex items-center justify-center text-center pt-20">
+        <div class="max-w-3xl px-4">
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-white mb-6">Um Lugar de Esperança e Comunhão</h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-8 font-light">Junte-se a nós para celebrar a fé, construir relacionamentos e fazer a diferença na nossa comunidade.</p>
+            <a href="#horarios" class="inline-block bg-gold-500 text-white px-8 py-3 rounded-md font-semibold text-lg hover:bg-gold-600 transition">Participe de um Culto</a>
+        </div>
+    </section>
+
+    <!-- Nossa História -->
+    <section id="historia" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-blue-900">Nossa História</h2>
+                <div class="h-1 w-20 bg-gold-500 mx-auto mt-4"></div>
+            </div>
+            <div class="max-w-4xl mx-auto text-lg text-gray-600 leading-relaxed text-justify">
+                <p class="mb-4">Fundada com o propósito de espalhar amor e esperança, nossa igreja tem sido um farol na comunidade há muitos anos. Começamos como um pequeno grupo de oração e, pela graça, crescemos e nos tornamos uma grande família espiritual.</p>
+                <p>Nossa missão é acolher a todos, oferecendo um ambiente seguro onde cada indivíduo possa crescer em sua fé e descobrir seu propósito. Acreditamos no poder da transformação através do ensino da Palavra e da vivência do amor cristão no dia a dia.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pastor / Liderança -->
+    <section id="lideranca" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="w-64 h-64 md:w-80 md:h-80 bg-gray-300 rounded-full overflow-hidden border-4 border-gold-500 shadow-xl">
+                        <!-- Placeholder para foto do pastor -->
+                        <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pastor Principal" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-serif font-bold text-blue-900 mb-2">Pr. João e Pra. Maria da Silva</h2>
+                    <h3 class="text-gold-500 font-semibold mb-6 uppercase tracking-wider">Pastores Principais</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-6">Com um coração voltado para o cuidado pastoral e o ensino, nossos pastores dedicam suas vidas a guiar e abençoar as famílias da nossa congregação. Acreditam em uma igreja viva, dinâmica e acolhedora, onde cada pessoa tem valor e uma missão.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Horários de Culto -->
+    <section id="horarios" class="py-20 bg-blue-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-serif font-bold mb-12">Horários dos Cultos</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-blue-800 p-8 rounded-lg border border-blue-700 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 bg-gold-500 text-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Domingo de Manhã</h3>
+                    <p class="text-gold-500 text-2xl font-serif mb-4">09:00</p>
+                    <p class="text-gray-300">Escola Bíblica e Culto de Celebração Familiar.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-blue-800 p-8 rounded-lg border border-blue-700 hover:-translate-y-2 transition duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-gold-500 text-blue-900 text-xs font-bold px-3 py-1 rounded-bl-lg">Principal</div>
+                    <div class="w-12 h-12 bg-gold-500 text-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Domingo à Noite</h3>
+                    <p class="text-gold-500 text-2xl font-serif mb-4">18:30</p>
+                    <p class="text-gray-300">Culto de Celebração, Louvor e Adoração.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-blue-800 p-8 rounded-lg border border-blue-700 hover:-translate-y-2 transition duration-300">
+                    <div class="w-12 h-12 bg-gold-500 text-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Quarta-feira</h3>
+                    <p class="text-gold-500 text-2xl font-serif mb-4">19:30</p>
+                    <p class="text-gray-300">Culto de Ensino e Oração.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria (Instagram Placeholder) -->
+    <section id="galeria" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-blue-900">Nosso Dia a Dia</h2>
+                <p class="text-gray-500 mt-2">Acompanhe nosso Instagram <b>@nossaigreja</b></p>
+                <div class="h-1 w-20 bg-gold-500 mx-auto mt-4"></div>
+            </div>
+            
+            <!-- Grid Placeholder para API do Instagram -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="instagram-feed-container">
+                <!-- Esses divs simulam as fotos. No futuro, o JS substituirá isso. -->
+                <div class="aspect-square bg-gray-300 rounded-md overflow-hidden relative group">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <span class="text-white font-bold"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.203 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span>
+                    </div>
+                </div>
+                <div class="aspect-square bg-gray-300 rounded-md overflow-hidden relative group">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <span class="text-white font-bold"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.203 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span>
+                    </div>
+                </div>
+                <div class="aspect-square bg-gray-300 rounded-md overflow-hidden relative group">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <span class="text-white font-bold"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.203 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span>
+                    </div>
+                </div>
+                <div class="aspect-square bg-gray-300 rounded-md overflow-hidden relative group">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <span class="text-white font-bold"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.203 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contribuir / PIX Construção -->
+    <section id="contribuir" class="py-20 bg-white border-t border-gray-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-blue-50 rounded-2xl p-8 md:p-12 shadow-sm border border-blue-100 flex flex-col md:flex-row items-center gap-10">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-serif font-bold text-blue-900 mb-4">Campanha de Construção</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Estamos expandindo nosso espaço para acolher ainda mais pessoas e criar salas para as crianças. Faça parte desse projeto contribuindo com nossa campanha de construção.</p>
+                    
+                    <div class="bg-white p-4 rounded-md border border-gray-200 mb-4 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wide">Chave PIX (E-mail)</p>
+                            <p class="text-lg font-mono text-gray-800" id="chave-pix">construcao@nossaigreja.com.br</p>
+                        </div>
+                        <button onclick="copiarPix()" class="bg-blue-900 text-white p-2 rounded hover:bg-blue-800 transition focus:ring-2 focus:ring-blue-500" title="Copiar PIX">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                    </div>
+                    <p id="msg-copia" class="text-green-600 text-sm font-semibold hidden">Chave copiada com sucesso!</p>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200">
+                        <!-- Imagem do QR Code -->
+                        <div class="w-48 h-48 bg-gray-200 flex items-center justify-center text-gray-400">
+                            [ QR Code PIX Aqui ]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Localização -->
+    <section id="localizacao" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-blue-900">Nossa Localização</h2>
+                <div class="h-1 w-20 bg-gold-500 mx-auto mt-4"></div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                <div class="md:w-1/3 p-8 flex flex-col justify-center">
+                    <h3 class="text-xl font-bold text-blue-900 mb-4">Endereço</h3>
+                    <p class="text-gray-600 mb-6">Av. Principal da Esperança, nº 1000<br>Bairro Centro - CEP 00000-000<br>Teresina, PI</p>
+                    
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Contato</h3>
+                    <p class="text-gray-600">(86) 99999-9999</p>
+                    <p class="text-gray-600">contato@nossaigreja.com.br</p>
+                </div>
+                <div class="md:w-2/3 h-80 md:h-auto bg-gray-300">
+                    <!-- Mapa Placeholder - Substitua pelo iframe do Google Maps real -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127415.65684605928!2d-42.88410522067757!3d-5.093557577533869!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x78e3984d727b1eb%3A0x9d54e60fc31c360c!2sTeresina%2C%20PI!5e0!3m2!1spt-BR!2sbr!4v1699999999999!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-gray-300 py-8 border-t border-blue-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="font-serif font-bold text-xl text-white">Nossa<span class="text-gold-500">Igreja</span></span>
+            </div>
+            <div class="text-sm">
+                &copy; 2026 Nossa Igreja. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts da Página -->
+    <script src="script.js"></script>
+</body>
+</html>

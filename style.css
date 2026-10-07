@@ -1,0 +1,29 @@
+/* Customizações Adicionais - style.css */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background para a Seção Hero */
+.hero-bg {
+    background-color: #0F172A;
+    background-image: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efeito parallax suave */
+}
+
+/* Scrollbar Estilizada */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+    background: #1E293B; 
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #D4AF37; 
+}
