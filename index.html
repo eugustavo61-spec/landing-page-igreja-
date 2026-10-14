@@ -91,7 +91,7 @@
             </div>
             <div class="max-w-4xl mx-auto text-lg text-gray-600 leading-relaxed text-justify">
                 <p class="mb-4"<p> historiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                <p>historiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                <p>historiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
             </div>
         </div>
     </section>
@@ -212,6 +212,52 @@
                    <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200">
     <img src="img/qr-code.png" alt="QR Code PIX da Campanha de Construção"
          class="w-56 h-56 md:w-64 md:h-64 object-contain">
+</div>
+<!-- Fotos da obra -->
+<div class="mt-10">
+    <h3 class="text-xl font-serif font-bold text-blue-900 mb-4 text-center">Acompanhe a obra</h3>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button onclick="abrirFoto('img/obra/obra-1.jpg')" class="aspect-square overflow-hidden rounded-lg group">
+            <img src="img/obra/obra-1.jpg" alt="Foto da obra 1" loading="lazy"
+                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+        </button>
+        <button onclick="abrirFoto('img/obra/obra-2.jpg')" class="aspect-square overflow-hidden rounded-lg group">
+            <img src="img/obra/obra-2.jpg" alt="Foto da obra 2" loading="lazy"
+                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+        </button>
+        <button onclick="abrirFoto('img/obra/obra-3.jpg')" class="aspect-square overflow-hidden rounded-lg group">
+            <img src="img/obra/obra-3.jpg" alt="Foto da obra 3" loading="lazy"
+                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+        </button>
+        <button onclick="abrirFoto('img/obra/obra-4.jpg')" class="aspect-square overflow-hidden rounded-lg group">
+            <img src="img/obra/obra-4.jpg" alt="Foto da obra 4" loading="lazy"
+                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+        </button>
+    </div>
+
+    <!-- Fotos extras (escondidas até clicar) -->
+    <div id="fotos-extras" class="hidden">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+            <button onclick="abrirFoto('img/obra/obra-5.jpg')" class="aspect-square overflow-hidden rounded-lg group">
+                <img src="img/obra/obra-5.jpg" alt="Foto da obra 5" loading="lazy"
+                     class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            </button>
+            <!-- copie o bloco acima para as demais fotos -->
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <button id="btn-mais-fotos" onclick="alternarFotos()"
+                class="text-blue-900 font-semibold border border-blue-900 px-5 py-2 rounded-md hover:bg-blue-900 hover:text-white transition">
+            Ver mais fotos
+        </button>
+    </div>
+</div>
+
+<!-- Foto em tela cheia -->
+<div id="lightbox" class="hidden fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4 cursor-pointer" onclick="fecharFoto()">
+    <img id="lightbox-img" src="" alt="Foto ampliada da obra" class="max-h-full max-w-full rounded-lg">
 </div>
                 </div>
             </div>

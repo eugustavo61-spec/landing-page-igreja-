@@ -39,7 +39,26 @@ function copiarPix() {
         alert("Não foi possível copiar a chave. Selecione o texto manualmente.");
     });
 }
+// Fotos da obra
+function abrirFoto(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.remove('hidden');
+}
 
+function fecharFoto() {
+    document.getElementById('lightbox').classList.add('hidden');
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') fecharFoto();
+});
+
+function alternarFotos() {
+    const extras = document.getElementById('fotos-extras');
+    const btn = document.getElementById('btn-mais-fotos');
+    const aberto = !extras.classList.toggle('hidden');
+    btn.textContent = aberto ? 'Mostrar menos' : 'Ver mais fotos';
+}
 // Configuração futura para a API do Instagram
 // Exemplo de como você poderia usar o fetch() futuramente:
 /*
