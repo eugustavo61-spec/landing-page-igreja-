@@ -39,7 +39,17 @@ function copiarPix() {
         alert("Não foi possível copiar a chave. Selecione o texto manualmente.");
     });
 }
-// Fotos da obra
+// Galeria da construção
+function abrirGaleria() {
+    document.getElementById('galeria-obra').classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+}
+
+function fecharGaleria() {
+    document.getElementById('galeria-obra').classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+}
+
 function abrirFoto(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.remove('hidden');
@@ -50,15 +60,14 @@ function fecharFoto() {
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') fecharFoto();
+    if (e.key !== 'Escape') return;
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox.classList.contains('hidden')) {
+        fecharFoto();
+    } else {
+        fecharGaleria();
+    }
 });
-
-function alternarFotos() {
-    const extras = document.getElementById('fotos-extras');
-    const btn = document.getElementById('btn-mais-fotos');
-    const aberto = !extras.classList.toggle('hidden');
-    btn.textContent = aberto ? 'Mostrar menos' : 'Ver mais fotos';
-}
 // Configuração futura para a API do Instagram
 // Exemplo de como você poderia usar o fetch() futuramente:
 /*
