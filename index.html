@@ -189,14 +189,14 @@
         </div>
     </section>
 
-    <!-- Contribuir / PIX Construção -->
+      <!-- Contribuir / PIX Construção -->
     <section id="contribuir" class="py-20 bg-white border-t border-gray-200">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-blue-50 rounded-2xl p-8 md:p-12 shadow-sm border border-blue-100 flex flex-col md:flex-row items-center gap-10">
                 <div class="md:w-1/2">
                     <h2 class="text-3xl font-serif font-bold text-blue-900 mb-4">Campanha de Construção</h2>
                     <p class="text-gray-600 mb-6 leading-relaxed">Estamos expandindo nosso espaço para acolher ainda mais pessoas e criar salas para as crianças. Faça parte desse projeto contribuindo com nossa campanha de construção.</p>
-                    
+
                     <div class="bg-white p-4 rounded-md border border-gray-200 mb-4 flex items-center justify-between">
                         <div>
                             <p class="text-xs text-gray-500 font-bold uppercase tracking-wide">Chave PIX (cnpj)</p>
@@ -208,62 +208,52 @@
                     </div>
                     <p id="msg-copia" class="text-green-600 text-sm font-semibold hidden">Chave copiada com sucesso!</p>
                 </div>
+
                 <div class="md:w-1/2 flex justify-center">
-                   <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200">
-    <img src="img/qr-code.png" alt="QR Code PIX da Campanha de Construção"
-         class="w-56 h-56 md:w-64 md:h-64 object-contain">
-</div>
-<!-- Fotos da obra -->
-<div class="mt-10">
-    <h3 class="text-xl font-serif font-bold text-blue-900 mb-4 text-center">Acompanhe a obra</h3>
+                    <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200">
+                        <img src="img/qr-code.png" alt="QR Code PIX da Campanha de Construção"
+                             class="w-56 h-56 md:w-64 md:h-64 object-contain">
+                    </div>
+                </div>
+            </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <button onclick="abrirFoto('img/obra/obra-1.jpg')" class="aspect-square overflow-hidden rounded-lg group">
-            <img src="img/obra/obra-1.jpg" alt="Foto da obra 1" loading="lazy"
-                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-        </button>
-        <button onclick="abrirFoto('img/obra/obra-2.jpg')" class="aspect-square overflow-hidden rounded-lg group">
-            <img src="img/obra/obra-2.jpg" alt="Foto da obra 2" loading="lazy"
-                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-        </button>
-        <button onclick="abrirFoto('img/obra/obra-3.jpg')" class="aspect-square overflow-hidden rounded-lg group">
-            <img src="img/obra/obra-3.jpg" alt="Foto da obra 3" loading="lazy"
-                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-        </button>
-        <button onclick="abrirFoto('img/obra/obra-4.jpg')" class="aspect-square overflow-hidden rounded-lg group">
-            <img src="img/obra/obra-4.jpg" alt="Foto da obra 4" loading="lazy"
-                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-        </button>
-    </div>
-
-    <!-- Fotos extras (escondidas até clicar) -->
-    <div id="fotos-extras" class="hidden">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-            <button onclick="abrirFoto('img/obra/obra-5.jpg')" class="aspect-square overflow-hidden rounded-lg group">
-                <img src="img/obra/obra-5.jpg" alt="Foto da obra 5" loading="lazy"
-                     class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-            </button>
-            <!-- copie o bloco acima para as demais fotos -->
+            <!-- Botão da galeria -->
+            <div class="text-center mt-8">
+                <button onclick="abrirGaleria()"
+                        class="inline-flex items-center gap-2 text-blue-900 font-semibold border border-blue-900 px-6 py-3 rounded-md hover:bg-blue-900 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    Ver fotos antigas da construção
+                </button>
+            </div>
         </div>
-    </div>
 
-    <div class="text-center mt-5">
-        <button id="btn-mais-fotos" onclick="alternarFotos()"
-                class="text-blue-900 font-semibold border border-blue-900 px-5 py-2 rounded-md hover:bg-blue-900 hover:text-white transition">
-            Ver mais fotos
-        </button>
-    </div>
-</div>
-
-<!-- Foto em tela cheia -->
-<div id="lightbox" class="hidden fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4 cursor-pointer" onclick="fecharFoto()">
-    <img id="lightbox-img" src="" alt="Foto ampliada da obra" class="max-h-full max-w-full rounded-lg">
-</div>
+        <!-- Galeria (janela que abre ao clicar) -->
+        <div id="galeria-obra" class="hidden fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4"
+             onclick="if (event.target === this) fecharGaleria()">
+            <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-serif font-bold text-blue-900">Fotos da construção</h3>
+                    <button onclick="fecharGaleria()" aria-label="Fechar"
+                            class="text-gray-500 hover:text-gray-900 text-3xl leading-none">&times;</button>
+                </div>
+                <div class="p-4 overflow-y-auto grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <button onclick="abrirFoto('img/obra/obra-1.jpg')" class="aspect-square overflow-hidden rounded-lg">
+                        <img src="img/obra/obra-1.jpg" alt="Foto da construção 1" loading="lazy" class="w-full h-full object-cover">
+                    </button>
+                    <button onclick="abrirFoto('img/obra/obra-2.jpg')" class="aspect-square overflow-hidden rounded-lg">
+                        <img src="img/obra/obra-2.jpg" alt="Foto da construção 2" loading="lazy" class="w-full h-full object-cover">
+                    </button>
+                    <!-- copie o bloco <button>...</button> para cada foto nova -->
                 </div>
             </div>
         </div>
-    </section>
 
+        <!-- Foto ampliada -->
+        <div id="lightbox" class="hidden fixed inset-0 z-[70] bg-black/90 flex items-center justify-center p-4 cursor-pointer"
+             onclick="fecharFoto()">
+            <img id="lightbox-img" src="" alt="Foto ampliada da construção" class="max-h-full max-w-full rounded-lg">
+        </div>
+    </section>
     <!-- Localização -->
     <section id="localizacao" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -282,7 +272,7 @@
                 </div>
                 <div class="md:w-2/3 h-80 md:h-auto bg-gray-300">
                     <!-- Mapa Placeholder - Substitua pelo iframe do Google Maps real -->
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d449.5248361921882!2d-42.754594841972015!3d-5.11515943789511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x78e3171093b395d%3A0x6ae85a79c856f56c!2sTemplo%20Sede%20da%20Igreja%20Assembleia%20de%20Deus%20Do%20Dirceu%20Dois%20-%20CEMADEPI!5e1!3m2!1spt-BR!2sbr!4v1792006700149!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d449.5248361921882!2d-42.754594841972015!3d-5.11515943789511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x78e3171093b395d%3A0x6ae85a79c856f56c!2sTemplo%20Sede%20da%20Igreja%20Assembleia%20de%20Deus%20Do%20Dirceu%20Dois%20-%20CEMADEPI!5e1!3m2!1spt-BR!2sbr!4v1792006700149!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0; min-height: 320px;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
             </div>
         </div>
