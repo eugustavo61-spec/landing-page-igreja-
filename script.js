@@ -1,6 +1,12 @@
 // script.js
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Links compartilhados com #horarios devem abrir a página no início.
+    if (window.location.hash === '#horarios') {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+        window.scrollTo(0, 0);
+    }
     
     // Controle do Menu Mobile
     const btnMenu = document.getElementById('mobile-menu-btn');
