@@ -93,10 +93,26 @@
                 <h2 class="text-3xl font-serif font-bold text-blue-900">Nossa História</h2>
                 <div class="h-1 w-20 bg-blue-800 mx-auto mt-4"></div>
             </div>
-<div class="max-w-4xl mx-auto text-lg text-gray-600 leading-relaxed text-left md:text-justify break-words">
-    <p class="mb-4"> aqui o primeiro parágrafo da história da igreja.</p>
-    <p> aqui o segundo parágrafo.</p>
-</div>
+            <div class="max-w-4xl mx-auto text-lg text-gray-600 leading-relaxed">
+                <p class="mb-6 text-left md:text-justify">A Igreja Assembleia de Deus do Dirceu Dois (IADED) foi fundada em 25 de outubro de 2011. Desde então, sua trajetória é marcada pela fé, pela união dos membros e pela dedicação à construção de um espaço para adorar a Deus e servir à comunidade.</p>
+                <details class="group">
+                    <summary class="flex w-fit cursor-pointer list-none items-center gap-2 rounded-md border border-blue-800 px-5 py-2 font-semibold text-blue-900 transition hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800">
+                        <span class="group-open:hidden">Leia mais</span>
+                        <span class="hidden group-open:inline">Leia menos</span>
+                        <svg class="h-4 w-4 transition group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                        </svg>
+                    </summary>
+                    <div class="mt-6 space-y-4 text-left md:text-justify">
+                        <h3 class="font-serif text-xl font-bold text-blue-900">Breve história da IADED</h3>
+                        <p>A IADED (Igreja Assembleia de Deus do Dirceu Dois) foi fundada em 25 de outubro de 2011, com o nome de IADEMIMD, por meio de assembleia geral presidida pelo pastor José de Ribamar e Silva Filho. Na época, estava situada na Rua Juiz José de Carvalho Feitosa, nº 4021, bairro Dirceu II, em Teresina (PI). A igreja foi desmembrada da convenção CEADEPI e, nessa ocasião, filiou-se à convenção CEMADEPI, também fundada pelo pastor José de Ribamar e Silva Filho. Em 12 de dezembro de 2011, passou a chamar-se IADED — Igreja Assembleia de Deus do Dirceu Dois.</p>
+                        <p>Em 31 de julho de 2020, o pastor José de Ribamar e Silva Filho faleceu, mas a IADED permaneceu firme nos propósitos de Deus. Em 2021, em cumprimento a uma decisão judicial envolvendo a posse do templo, os membros tiveram de desocupar o prédio. A maioria acompanhou o atual presidente, pastor José Wilson Gerônimo e Silva, eleito e empossado ainda no templo, em 16 de novembro de 2021.</p>
+                        <p>Em 18 de novembro de 2021, foi realizado o primeiro culto na quadra esportiva do Colégio Nova Vida. A igreja permaneceu no local até 30 de dezembro daquele ano. No dia seguinte, passou a congregar em um prédio alugado na Q. 300, Casa 01, no Dirceu II.</p>
+                        <p>Durante esse período, o pastor José Wilson e os membros decidiram comprar o terreno onde hoje está situado o templo da IADED, na Rua Juiz José de Carvalho Feitosa, nº 3911/3912, bairro Dirceu II. A pedra fundamental foi lançada em 19 de março de 2022 e, logo depois, começaram as obras de construção do templo, realizadas com muito esforço, trabalho e a contribuição dos irmãos e irmãs, bem como dos acolhidos do Manancial da Vida.</p>
+                        <p>O primeiro culto no novo templo aconteceu em 6 de maio de 2023. Desde então, seguimos adorando a Deus neste lugar, com gratidão e louvor.</p>
+                    </div>
+                </details>
+            </div>
         </div>
     </section>
 
@@ -270,7 +286,7 @@
                 <button onclick="abrirGaleria()"
                         class="inline-flex items-center gap-2 text-blue-900 font-semibold border border-blue-900 px-6 py-3 rounded-md hover:bg-blue-900 hover:text-white transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    Ver fotos antigas da construção
+                    Ver linha do tempo da construção
                 </button>
             </div>
         </div>
@@ -280,23 +296,62 @@
              onclick="if (event.target === this) fecharGaleria()">
             <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
                 <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-serif font-bold text-blue-900">Fotos da construção</h3>
+                    <h3 class="text-lg font-serif font-bold text-blue-900">Linha do tempo da construção</h3>
                     <button onclick="fecharGaleria()" aria-label="Fechar"
                             class="text-gray-500 hover:text-gray-900 text-3xl leading-none">&times;</button>
                 </div>
-                <div class="p-5 overflow-y-auto grid grid-cols-2 md:grid-cols-3 gap-5">
-                    <button onclick="abrirFoto('img/obra/obra-1.jpeg')" aria-label="Ampliar foto da construção 1" class="block w-full min-h-0 aspect-square overflow-hidden rounded-lg">
-                        <img src="img/obra/obra-1.jpeg" alt="Foto da construção 1" loading="lazy" class="block w-full h-full min-h-0 object-cover">
-                    </button>
-                    <button onclick="abrirFoto('img/obra/obra-3.jpeg')" aria-label="Ampliar foto da construção 2" class="block w-full min-h-0 aspect-square overflow-hidden rounded-lg">
-                        <img src="img/obra/obra-3.jpeg" alt="Foto da construção 2" loading="lazy" class="block w-full h-full min-h-0 object-cover">
-                    </button>
-                    <button onclick="abrirFoto('img/obra/pedra_fundamental.jpeg')" aria-label="Ampliar foto da pedra fundamental" class="block w-full min-h-0 aspect-square overflow-hidden rounded-lg">
-                        <img src="img/obra/pedra_fundamental.jpeg" alt="Foto da pedra fundamental da igreja" loading="lazy" class="block w-full h-full min-h-0 object-cover">
-                    </button>
-                    <button onclick="abrirFoto('img/obra/agosto_2024.jpeg')" aria-label="Ampliar foto da construção em agosto de 2024" class="block w-full min-h-0 aspect-square overflow-hidden rounded-lg">
-                        <img src="img/obra/agosto_2024.jpeg" alt="Foto da construção em agosto de 2024" loading="lazy" class="block w-full h-full min-h-0 object-cover">
-                    </button>
+                <div class="overflow-y-auto p-5">
+                    <ol class="ml-2 space-y-8 border-l-2 border-blue-200 py-1 pl-6">
+                        <li class="relative">
+                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-blue-700 ring-2 ring-blue-700" aria-hidden="true"></span>
+                            <h4 class="mb-3 font-semibold text-blue-900">Pedra fundamental</h4>
+                            <button onclick="abrirFoto('img/obra/pedra_fundamental.jpeg')" aria-label="Ampliar foto da pedra fundamental" class="block w-full overflow-hidden rounded-lg">
+                                <img src="img/obra/pedra_fundamental.jpeg" alt="Lançamento da pedra fundamental da igreja" loading="lazy" class="block h-auto max-h-96 w-full rounded-lg object-contain">
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-blue-700 ring-2 ring-blue-700" aria-hidden="true"></span>
+                            <h4 class="mb-3 font-semibold text-blue-900">Etapa 1 da construção</h4>
+                            <button onclick="abrirFoto('img/obra/obra-0.jpeg')" aria-label="Ampliar foto da etapa 1 da construção" class="block w-full overflow-hidden rounded-lg">
+                                <img src="img/obra/obra-0.jpeg" alt="Primeira etapa da construção da igreja" loading="lazy" class="block h-auto max-h-96 w-full rounded-lg object-contain">
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-blue-700 ring-2 ring-blue-700" aria-hidden="true"></span>
+                            <h4 class="mb-3 font-semibold text-blue-900">Etapa 2 da construção</h4>
+                            <button onclick="abrirFoto('img/obra/obra-1.jpeg')" aria-label="Ampliar foto da etapa 2 da construção" class="block w-full overflow-hidden rounded-lg">
+                                <img src="img/obra/obra-1.jpeg" alt="Segunda etapa da construção da igreja" loading="lazy" class="block h-auto max-h-96 w-full rounded-lg object-contain">
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-blue-700 ring-2 ring-blue-700" aria-hidden="true"></span>
+                            <h4 class="mb-3 font-semibold text-blue-900">Etapa 3 da construção</h4>
+                            <button onclick="abrirFoto('img/obra/obra-2.jpeg')" aria-label="Ampliar foto da etapa 3 da construção" class="block w-full overflow-hidden rounded-lg">
+                                <img src="img/obra/obra-2.jpeg" alt="Terceira etapa da construção da igreja" loading="lazy" class="block h-auto max-h-96 w-full rounded-lg object-contain">
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-blue-700 ring-2 ring-blue-700" aria-hidden="true"></span>
+                            <h4 class="mb-3 font-semibold text-blue-900">Etapa 4 da construção</h4>
+                            <button onclick="abrirFoto('img/obra/obra-3.jpeg')" aria-label="Ampliar foto da etapa 4 da construção" class="block w-full overflow-hidden rounded-lg">
+                                <img src="img/obra/obra-3.jpeg" alt="Quarta etapa da construção da igreja" loading="lazy" class="block h-auto max-h-96 w-full rounded-lg object-contain">
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-blue-700 ring-2 ring-blue-700" aria-hidden="true"></span>
+                            <h4 class="mb-3 font-semibold text-blue-900">Etapa 5 da construção</h4>
+                            <button onclick="abrirFoto('img/obra/obra-4.jpeg')" aria-label="Ampliar foto da etapa 5 da construção" class="block w-full overflow-hidden rounded-lg">
+                                <img src="img/obra/obra-4.jpeg" alt="Quinta etapa da construção da igreja" loading="lazy" class="block h-auto max-h-96 w-full rounded-lg object-contain">
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-blue-700 ring-2 ring-blue-700" aria-hidden="true"></span>
+                            <h4 class="mb-3 font-semibold text-blue-900">Etapa 6 da construção</h4>
+                            <button onclick="abrirFoto('img/obra/obra-5.jpeg')" aria-label="Ampliar foto da etapa 6 da construção" class="block w-full overflow-hidden rounded-lg">
+                                <img src="img/obra/obra-5.jpeg" alt="Sexta etapa da construção da igreja" loading="lazy" class="block h-auto max-h-96 w-full rounded-lg object-contain">
+                            </button>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </div>
