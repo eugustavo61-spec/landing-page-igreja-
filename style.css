@@ -6,8 +6,8 @@ body {
 
 /* Background para a Seção Hero */
 .hero-bg {
-    background-color: #0F172A;
-    background-image: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-color: #0D3741;
+    background-image: linear-gradient(to right, rgba(13, 55, 65, 0.95), rgba(13, 55, 65, 0.7)), url('https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
     background-size: cover;
     background-position: center;
     background-attachment: fixed; /* Efeito parallax suave */
@@ -21,9 +21,9 @@ body {
     background: #f1f1f1; 
 }
 ::-webkit-scrollbar-thumb {
-    background: #1E293B; 
+    background: #174B56;
     border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #D4AF37; 
+    background: #F4EBDD;
 }
