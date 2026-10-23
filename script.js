@@ -74,16 +74,3 @@ document.addEventListener('keydown', (e) => {
         fecharGaleria();
     }
 });
-// Configuração futura para a API do Instagram
-// Exemplo de como você poderia usar o fetch() futuramente:
-/*
-async function carregarInstagramFeed() {
-    try {
-        const response = await fetch('SUA_URL_DA_API_AQUI');
-        const data = await response.json();
-        // Lógica para injetar imagens na div #instagram-feed-container
-    } catch (error) {
-        console.error("Erro ao carregar o feed: ", error);
-    }
-}
-*/
