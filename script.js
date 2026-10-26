@@ -19,14 +19,96 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Fechar menu mobile ao clicar em um link
-    const mobileLinks = menu.querySelectorAll('a');
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            menu.classList.add('hidden');
+    if (menu) {
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
         });
-    });
+    }
+
+    carregarFotosInstagram();
 
 });
+
+function isInstagramMediaUrl(value) {
+    if (typeof value !== 'string') return false;
+
+    try {
+        const url = new URL(value);
+        return url.protocol === 'https:'
+            && (url.hostname.endsWith('.cdninstagram.com') || url.hostname.endsWith('.fbcdn.net'));
+    } catch {
+        return false;
+    }
+}
+
+function isInstagramPostUrl(value) {
+    if (typeof value !== 'string') return false;
+
+    try {
+        const url = new URL(value);
+        return url.protocol === 'https:'
+            && (url.hostname === 'instagram.com' || url.hostname.endsWith('.instagram.com'));
+    } catch {
+        return false;
+    }
+}
+
+async function carregarFotosInstagram() {
+    const feed = document.getElementById('instagram-feed');
+    const status = document.getElementById('instagram-feed-status');
+    if (!feed || !status) return;
+
+    try {
+        const response = await fetch('data/instagram-feed.json', { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error(`Resposta HTTP ${response.status}`);
+        }
+
+        const payload = await response.json();
+        if (!Array.isArray(payload.posts)) {
+            throw new Error('Formato do feed inválido');
+        }
+
+        const posts = payload.posts
+            .filter(post => post && isInstagramMediaUrl(post.mediaUrl) && isInstagramPostUrl(post.permalink))
+            .slice(0, 6);
+
+        if (posts.length === 0) {
+            status.textContent = 'As fotos recentes aparecerão aqui. Siga nosso Instagram para acompanhar a IADED.';
+            return;
+        }
+
+        const cards = posts.map(post => {
+            const link = document.createElement('a');
+            link.href = post.permalink;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'group block aspect-square overflow-hidden rounded-lg bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800';
+            link.setAttribute('aria-label', 'Ver publicação no Instagram');
+
+            const image = document.createElement('img');
+            image.src = post.mediaUrl;
+            image.alt = typeof post.caption === 'string' && post.caption.trim()
+                ? post.caption.trim().slice(0, 160)
+                : 'Foto recente da IADED no Instagram';
+            image.loading = 'lazy';
+            image.decoding = 'async';
+            image.referrerPolicy = 'no-referrer';
+            image.className = 'h-full w-full object-cover transition duration-300 group-hover:scale-105';
+            link.append(image);
+            return link;
+        });
+
+        feed.replaceChildren(...cards);
+        status.textContent = 'Fotos recentes do Instagram';
+    } catch (error) {
+        console.error('Não foi possível carregar o feed do Instagram.', error);
+        status.textContent = 'Não foi possível carregar as fotos agora. Acesse nosso Instagram pelo botão ao lado.';
+    }
+}
 
 // Função para Copiar a Chave PIX
 function copiarPix() {
