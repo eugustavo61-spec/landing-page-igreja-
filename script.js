@@ -57,9 +57,14 @@ function isInstagramPostUrl(value) {
 }
 
 async function carregarFotosInstagram() {
-    const feed = document.getElementById('instagram-feed');
     const status = document.getElementById('instagram-feed-status');
-    if (!feed || !status) return;
+    const carousel = document.getElementById('instagram-carousel');
+    const image = document.getElementById('instagram-slide-image');
+    const slideLink = document.getElementById('instagram-slide-link');
+    const dots = document.getElementById('instagram-carousel-dots');
+    const previousButton = document.getElementById('instagram-previous');
+    const nextButton = document.getElementById('instagram-next');
+    if (!status || !carousel || !image || !slideLink || !dots || !previousButton || !nextButton) return;
 
     try {
         const response = await fetch('data/instagram-feed.json', { cache: 'no-store' });
@@ -81,29 +86,76 @@ async function carregarFotosInstagram() {
             return;
         }
 
-        const cards = posts.map(post => {
-            const link = document.createElement('a');
-            link.href = post.permalink;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.className = 'group block aspect-square overflow-hidden rounded-lg bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800';
-            link.setAttribute('aria-label', 'Ver publicação no Instagram');
+        let currentIndex = 0;
+        let autoplayTimer;
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const dotButtons = posts.map((_, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'h-3 w-3 rounded-full bg-gray-300 transition hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-800';
+            button.setAttribute('aria-label', `Mostrar foto ${index + 1} de ${posts.length}`);
+            button.addEventListener('click', () => {
+                showSlide(index);
+                startAutoplay();
+            });
+            dots.append(button);
+            return button;
+        });
 
-            const image = document.createElement('img');
+        function showSlide(index) {
+            currentIndex = (index + posts.length) % posts.length;
+            const post = posts[currentIndex];
+            slideLink.href = post.permalink;
             image.src = post.mediaUrl;
             image.alt = typeof post.caption === 'string' && post.caption.trim()
                 ? post.caption.trim().slice(0, 160)
                 : 'Foto recente da IADED no Instagram';
-            image.loading = 'lazy';
-            image.decoding = 'async';
-            image.referrerPolicy = 'no-referrer';
-            image.className = 'h-full w-full object-cover transition duration-300 group-hover:scale-105';
-            link.append(image);
-            return link;
-        });
+            dotButtons.forEach((button, dotIndex) => {
+                button.classList.toggle('bg-blue-800', dotIndex === currentIndex);
+                button.classList.toggle('bg-gray-300', dotIndex !== currentIndex);
+                button.setAttribute('aria-current', dotIndex === currentIndex ? 'true' : 'false');
+            });
+        }
 
-        feed.replaceChildren(...cards);
+        function stopAutoplay() {
+            window.clearInterval(autoplayTimer);
+            autoplayTimer = undefined;
+        }
+
+        function startAutoplay() {
+            stopAutoplay();
+            const userInteracting = carousel.matches(':hover') || carousel.contains(document.activeElement);
+            if (posts.length > 1 && !reducedMotion && !document.hidden && !userInteracting) {
+                autoplayTimer = window.setInterval(() => showSlide(currentIndex + 1), 5000);
+            }
+        }
+
+        previousButton.addEventListener('click', () => {
+            showSlide(currentIndex - 1);
+            startAutoplay();
+        });
+        nextButton.addEventListener('click', () => {
+            showSlide(currentIndex + 1);
+            startAutoplay();
+        });
+        carousel.addEventListener('pointerenter', stopAutoplay);
+        carousel.addEventListener('pointerleave', startAutoplay);
+        carousel.addEventListener('focusin', stopAutoplay);
+        carousel.addEventListener('focusout', event => {
+            if (!carousel.contains(event.relatedTarget)) startAutoplay();
+        });
+        document.addEventListener('visibilitychange', startAutoplay);
+
+        if (posts.length < 2) {
+            previousButton.classList.add('hidden');
+            nextButton.classList.add('hidden');
+            dots.classList.add('hidden');
+        }
+
+        showSlide(0);
+        carousel.classList.remove('hidden');
         status.textContent = 'Fotos recentes do Instagram';
+        startAutoplay();
     } catch (error) {
         console.error('Não foi possível carregar o feed do Instagram.', error);
         status.textContent = 'Não foi possível carregar as fotos agora. Acesse nosso Instagram pelo botão ao lado.';
