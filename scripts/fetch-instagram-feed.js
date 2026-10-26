@@ -36,7 +36,21 @@ async function getJson(url, accessToken, fetchImpl) {
 
     const response = await fetchImpl(requestUrl, { headers: { Accept: 'application/json' } });
     if (!response.ok) {
-        throw new Error(`Instagram API request failed (HTTP ${response.status}). Check the token, permissions, and account setup.`);
+        let details = '';
+        try {
+            const payload = await response.json();
+            const apiError = payload?.error;
+            if (apiError && typeof apiError === 'object') {
+                const code = Number.isInteger(apiError.code) ? `, code ${apiError.code}` : '';
+                const message = typeof apiError.message === 'string'
+                    ? apiError.message.replaceAll(accessToken, '[redacted]').slice(0, 400)
+                    : '';
+                details = `${code}${message ? `: ${message}` : ''}`;
+            }
+        } catch (error) {
+            if (!(error instanceof SyntaxError)) throw error;
+        }
+        throw new Error(`Instagram API request failed (HTTP ${response.status}${details}). Check the token, permissions, and account setup.`);
     }
 
     const payload = await response.json();
