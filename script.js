@@ -106,7 +106,9 @@ async function buscarDadosAgenda() {
         { cache: 'no-store' }
     );
     if (!metadataResponse.ok) {
-        throw new Error(`Não foi possível consultar a planilha (HTTP ${metadataResponse.status}).`);
+        const error = new Error(`Não foi possível consultar a planilha (HTTP ${metadataResponse.status}).`);
+        error.status = metadataResponse.status;
+        throw error;
     }
 
     const metadata = await metadataResponse.json();
@@ -125,7 +127,9 @@ async function buscarDadosAgenda() {
         { cache: 'no-store' }
     );
     if (!valuesResponse.ok) {
-        throw new Error(`Não foi possível ler os eventos da planilha (HTTP ${valuesResponse.status}).`);
+        const error = new Error(`Não foi possível ler os eventos da planilha (HTTP ${valuesResponse.status}).`);
+        error.status = valuesResponse.status;
+        throw error;
     }
 
     const payload = await valuesResponse.json();
@@ -245,9 +249,13 @@ async function carregarAgenda() {
         renderizarSemana();
     } catch (error) {
         console.error('Não foi possível carregar a agenda da planilha.', error);
-        status.textContent = error.message.includes('Configure a chave')
-            ? 'A agenda está aguardando a configuração da API do Google Sheets.'
-            : 'Não foi possível carregar a agenda. Verifique a configuração da planilha e tente novamente.';
+        if (error.message.includes('Configure a chave')) {
+            status.textContent = 'A agenda está aguardando a configuração da API do Google Sheets.';
+        } else if (error.status === 403) {
+            status.textContent = 'A API bloqueou a chave. Confira se as restrições incluem o domínio do site com e sem www.';
+        } else {
+            status.textContent = 'Não foi possível carregar a agenda. Verifique a configuração da planilha e tente novamente.';
+        }
         status.classList.remove('hidden');
         eventsContainer.classList.add('hidden');
     }
