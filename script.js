@@ -250,7 +250,9 @@ async function carregarAgenda() {
     }
 
     try {
-        const response = await fetch(AGENDA_CSV_URL, { cache: 'no-store' });
+        const agendaUrl = new URL(AGENDA_CSV_URL);
+        agendaUrl.searchParams.set('_', Date.now().toString());
+        const response = await fetch(agendaUrl.toString(), { cache: 'no-store' });
         if (!response.ok) throw new Error(`Resposta HTTP ${response.status}`);
         events = carregarEventosAgenda(await response.text());
         renderizarSemana();
