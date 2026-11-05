@@ -156,14 +156,76 @@ async function carregarAgenda() {
     const eventsContainer = document.getElementById('agenda-events-container');
     const eventsBody = document.getElementById('agenda-events');
     const toggleEventsButton = document.getElementById('agenda-toggle-events');
+    const downloadMonthButton = document.getElementById('agenda-download-month');
+    const printView = document.getElementById('agenda-print-view');
     const previousButton = document.getElementById('agenda-previous-week');
     const nextButton = document.getElementById('agenda-next-week');
-    if (!status || !weekLabel || !eventsContainer || !eventsBody || !toggleEventsButton || !previousButton || !nextButton) return;
+    if (!status || !weekLabel || !eventsContainer || !eventsBody || !toggleEventsButton
+        || !downloadMonthButton || !printView || !previousButton || !nextButton) return;
 
     let weekStart = inicioDaSemana(new Date());
     let events = [];
     let showAllEvents = false;
     const visibleEventLimit = 4;
+
+    function obterEventosDoMes() {
+        return events.filter(event =>
+            event.date.getFullYear() === weekStart.getFullYear()
+            && event.date.getMonth() === weekStart.getMonth()
+        );
+    }
+
+    function atualizarAcoesDoMes(monthEvents) {
+        const monthLabel = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(weekStart);
+        downloadMonthButton.textContent = `Baixar agenda de ${monthLabel} em PDF`;
+        const disabled = monthEvents.length === 0;
+        downloadMonthButton.disabled = disabled;
+    }
+
+    function baixarPdfDoMes() {
+        const monthEvents = obterEventosDoMes();
+        printView.replaceChildren();
+
+        const heading = document.createElement('h1');
+        heading.textContent = 'Agenda mensal IADED';
+        printView.append(heading);
+
+        const monthLabel = document.createElement('p');
+        monthLabel.className = 'agenda-print-month';
+        monthLabel.textContent = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(weekStart);
+        printView.append(monthLabel);
+
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        ['Data', 'Horário', 'Atividade', 'Dirigente', 'Ministrante'].forEach(label => {
+            const cell = document.createElement('th');
+            cell.textContent = label;
+            headerRow.append(cell);
+        });
+        thead.append(headerRow);
+        table.append(thead);
+
+        const tbody = document.createElement('tbody');
+        monthEvents.forEach(event => {
+            const row = document.createElement('tr');
+            [
+                formatarDataAgenda(event.date),
+                event.time || '—',
+                event.activity,
+                event.leader || '—',
+                event.minister || '—'
+            ].forEach(value => {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                row.append(cell);
+            });
+            tbody.append(row);
+        });
+        table.append(tbody);
+        printView.append(table);
+        window.print();
+    }
 
     function renderizarSemana() {
         showAllEvents = false;
@@ -172,6 +234,8 @@ async function carregarAgenda() {
         weekLabel.textContent = `${formatarDataAgenda(weekStart)} a ${formatarDataAgenda(weekEnd)}`;
 
         const weeklyEvents = events.filter(event => event.date >= weekStart && event.date <= weekEnd);
+        const monthEvents = obterEventosDoMes();
+        atualizarAcoesDoMes(monthEvents);
         eventsBody.replaceChildren();
 
         if (weeklyEvents.length === 0) {
@@ -233,6 +297,8 @@ async function carregarAgenda() {
         toggleEventsButton.textContent = showAllEvents ? 'Ver menos' : `Ver mais (${eventsBody.children.length - visibleEventLimit})`;
         toggleEventsButton.setAttribute('aria-expanded', String(showAllEvents));
     });
+
+    downloadMonthButton.addEventListener('click', baixarPdfDoMes);
 
     previousButton.addEventListener('click', () => {
         weekStart.setDate(weekStart.getDate() - 7);

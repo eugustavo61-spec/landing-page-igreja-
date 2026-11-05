@@ -263,6 +263,11 @@
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                         </button>
                     </div>
+                    <div class="mb-5 flex justify-center border-b border-white/10 pb-5">
+                        <button id="agenda-download-month" type="button" class="rounded-lg bg-cream-500 px-4 py-2 text-sm font-semibold text-blue-900 transition hover:bg-cream-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream-500 disabled:cursor-not-allowed disabled:opacity-50" disabled>
+                            Baixar agenda do mês em PDF
+                        </button>
+                    </div>
                     <p id="agenda-status" class="py-10 text-sm text-blue-50" role="status" aria-live="polite">Carregando agenda...</p>
                     <div id="agenda-events-container" class="hidden">
                         <div id="agenda-events" class="space-y-3 text-left"></div>
@@ -552,8 +557,10 @@
         <span>Fale conosco</span>
     </a>
 
+    <div id="agenda-print-view" class="hidden" aria-hidden="true"></div>
+
     <!-- Scripts da Página -->
     <script src="agenda-config.js?v=1"></script>
-    <script src="script.js?v=agenda-semanal-3"></script>
+    <script src="script.js?v=agenda-pdf-5"></script>
 </body>
 </html>

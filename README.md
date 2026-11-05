@@ -26,6 +26,8 @@ Cada linha representa uma atividade. Para várias atividades na mesma data, use 
 
 O site faz leitura somente dos valores das colunas A:E. O código consulta a aba pelo ID, então o nome da aba pode ser alterado sem atualizar o site. Se uma resposta falhar, a seção exibe uma mensagem de erro e o console registra o detalhe técnico.
 
+Na agenda, os visitantes podem baixar os eventos do mês selecionado em PDF. Ao clicar no botão, abre-se a janela de impressão do navegador; selecione **Salvar como PDF** no destino para baixar o arquivo. O mês acompanha a semana selecionada na navegação.
+
 ## Integração automática do Instagram
 
 O site não acessa o Instagram diretamente pelo navegador. Um workflow executado no GitHub busca as publicações e atualiza `data/instagram-feed.json`; essa lista contém somente dados públicos das fotos. A credencial fica em um GitHub Actions Secret e nunca é enviada ao visitante do site.

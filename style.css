@@ -27,3 +27,65 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #F4EBDD;
 }
+
+#agenda-print-view {
+    display: none;
+}
+
+@media print {
+    @page {
+        margin: 14mm;
+    }
+
+    body > *:not(#agenda-print-view) {
+        display: none !important;
+    }
+
+    #agenda-print-view,
+    #agenda-print-view.hidden {
+        display: block !important;
+        color: #1f2937;
+        font-family: Arial, sans-serif;
+    }
+
+    #agenda-print-view h1 {
+        margin: 0;
+        color: #0D3741;
+        font-family: Georgia, serif;
+        font-size: 24pt;
+        text-align: center;
+    }
+
+    #agenda-print-view .agenda-print-month {
+        margin: 6px 0 20px;
+        color: #174B56;
+        font-size: 13pt;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    #agenda-print-view table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+    }
+
+    #agenda-print-view th,
+    #agenda-print-view td {
+        border: 1px solid #9ca3af;
+        padding: 7px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    #agenda-print-view th {
+        background: #e7d8c2 !important;
+        color: #0D3741;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    #agenda-print-view tr {
+        break-inside: avoid;
+    }
+}
