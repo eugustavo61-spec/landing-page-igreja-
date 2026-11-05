@@ -166,6 +166,7 @@ async function carregarAgenda() {
     let weekStart = inicioDaSemana(new Date());
     let events = [];
     let showAllEvents = false;
+    let updatingAgendaForPdf = false;
     const visibleEventLimit = 4;
 
     function obterEventosDoMes() {
@@ -175,14 +176,12 @@ async function carregarAgenda() {
         );
     }
 
-    function atualizarAcoesDoMes(monthEvents) {
+    function atualizarAcoesDoMes() {
         const monthLabel = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(weekStart);
         downloadMonthButton.textContent = `Baixar agenda de ${monthLabel} em PDF`;
-        const disabled = monthEvents.length === 0;
-        downloadMonthButton.disabled = disabled;
     }
 
-    function baixarPdfDoMes() {
+    function gerarPdfDoMes() {
         const monthEvents = obterEventosDoMes();
         printView.replaceChildren();
 
@@ -231,6 +230,26 @@ async function carregarAgenda() {
         window.print();
     }
 
+    async function baixarPdfDoMes() {
+        if (updatingAgendaForPdf) return;
+        updatingAgendaForPdf = true;
+        status.textContent = 'Atualizando a agenda para gerar o PDF...';
+        status.classList.remove('hidden');
+
+        try {
+            const values = await buscarDadosAgenda();
+            events = carregarEventosAgenda(values);
+            renderizarSemana();
+            gerarPdfDoMes();
+        } catch (error) {
+            console.error('Não foi possível atualizar a agenda para gerar o PDF.', error);
+            status.textContent = mensagemErroAgenda(error);
+            status.classList.remove('hidden');
+        } finally {
+            updatingAgendaForPdf = false;
+        }
+    }
+
     function renderizarSemana() {
         showAllEvents = false;
         const weekEnd = new Date(weekStart);
@@ -238,8 +257,7 @@ async function carregarAgenda() {
         weekLabel.textContent = `${formatarDataAgenda(weekStart)} a ${formatarDataAgenda(weekEnd)}`;
 
         const weeklyEvents = events.filter(event => event.date >= weekStart && event.date <= weekEnd);
-        const monthEvents = obterEventosDoMes();
-        atualizarAcoesDoMes(monthEvents);
+        atualizarAcoesDoMes();
         eventsBody.replaceChildren();
 
         if (weeklyEvents.length === 0) {
@@ -319,16 +337,20 @@ async function carregarAgenda() {
         renderizarSemana();
     } catch (error) {
         console.error('Não foi possível carregar a agenda da planilha.', error);
-        if (error.message.includes('Configure a chave')) {
-            status.textContent = 'A agenda está aguardando a configuração da API do Google Sheets.';
-        } else if (error.status === 403) {
-            status.textContent = 'A API bloqueou a chave. Confira se as restrições incluem o domínio do site com e sem www.';
-        } else {
-            status.textContent = 'Não foi possível carregar a agenda. Verifique a configuração da planilha e tente novamente.';
-        }
+        status.textContent = mensagemErroAgenda(error);
         status.classList.remove('hidden');
         eventsContainer.classList.add('hidden');
     }
+}
+
+function mensagemErroAgenda(error) {
+    if (error.message.includes('Configure a chave')) {
+        return 'A agenda está aguardando a configuração da API do Google Sheets.';
+    }
+    if (error.status === 403) {
+        return 'A API bloqueou a chave. Confira se as restrições incluem o domínio do site com e sem www.';
+    }
+    return 'Não foi possível carregar a agenda. Verifique a configuração da planilha e tente novamente.';
 }
 
 function isInstagramMediaUrl(value) {

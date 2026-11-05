@@ -26,7 +26,7 @@ Cada linha representa uma atividade. Para várias atividades na mesma data, use 
 
 O site faz leitura somente dos valores das colunas A:E. O código consulta a aba pelo ID, então o nome da aba pode ser alterado sem atualizar o site. Se uma resposta falhar, a seção exibe uma mensagem de erro e o console registra o detalhe técnico.
 
-Na agenda, os visitantes podem baixar os eventos do mês selecionado em PDF. Ao clicar no botão, abre-se a janela de impressão do navegador; selecione **Salvar como PDF** no destino para baixar o arquivo. O mês acompanha a semana selecionada na navegação.
+Na agenda, os visitantes podem baixar os eventos do mês selecionado em PDF. O botão fica disponível mesmo quando ainda não há eventos carregados; ao clicar, o site consulta novamente a planilha para incluir as alterações mais recentes. Abre-se a janela de impressão do navegador; selecione **Salvar como PDF** no destino para baixar o arquivo. O mês acompanha a semana selecionada na navegação.
 
 ## Integração automática do Instagram
 
