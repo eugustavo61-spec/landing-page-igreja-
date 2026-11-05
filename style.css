@@ -37,12 +37,11 @@ body {
         margin: 14mm;
     }
 
-    body > *:not(#agenda-print-view) {
+    body.agenda-pdf-mode > *:not(#agenda-print-view) {
         display: none !important;
     }
 
-    #agenda-print-view,
-    #agenda-print-view.hidden {
+    body.agenda-pdf-mode > #agenda-print-view {
         display: block !important;
         color: #1f2937;
         font-family: Arial, sans-serif;

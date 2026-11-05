@@ -224,6 +224,10 @@ async function carregarAgenda() {
         });
         table.append(tbody);
         printView.append(table);
+        document.body.classList.add('agenda-pdf-mode');
+        window.addEventListener('afterprint', () => {
+            document.body.classList.remove('agenda-pdf-mode');
+        }, { once: true });
         window.print();
     }
 
