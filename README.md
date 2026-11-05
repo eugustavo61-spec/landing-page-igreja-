@@ -4,11 +4,11 @@ Site estático da IADED, publicado no GitHub Pages. A seção do Instagram é at
 
 ## Agenda mensal pelo Google Sheets
 
-A agenda do site é carregada de uma planilha publicada para leitura. A equipe pode editar os eventos na planilha sem alterar o código do site. O visitante vê uma semana por vez e navega pelos botões **Semana anterior** e **Próxima semana**; a semana começa na segunda-feira.
+A agenda do site lê diretamente os valores da planilha pela Google Sheets API. A equipe pode editar os eventos sem alterar o código do site; o visitante vê uma semana por vez e navega pelos botões **Semana anterior** e **Próxima semana**. A semana começa na segunda-feira.
 
 ### Formato da planilha
 
-Crie uma aba com estes cabeçalhos, escritos exatamente assim:
+Na aba da agenda, mantenha estes cabeçalhos:
 
 | Data | Horário | Atividade | Dirigente | Ministrante |
 |---|---|---|---|---|
@@ -16,15 +16,15 @@ Crie uma aba com estes cabeçalhos, escritos exatamente assim:
 
 Cada linha representa uma atividade. Para várias atividades na mesma data, use uma linha para cada uma. Formate a coluna **Data** como `dd/mm/aaaa`. O arquivo [`data/agenda-template.csv`](data/agenda-template.csv) contém os cabeçalhos para copiar ou importar.
 
-### Publicar e conectar a planilha
+### Configurar a API
 
-1. No Google Sheets, crie a planilha e mantenha os dados públicos nela limitados ao que deve aparecer no site.
-2. Use **Arquivo → Compartilhar → Publicar na Web**. Selecione somente a aba da agenda e o formato **Valores separados por vírgula (.csv)**, então publique.
-3. Copie o link CSV publicado. A publicação torna os dados dessa aba acessíveis publicamente; não coloque nela informações privadas.
-4. No arquivo `script.js`, substitua o valor vazio de `AGENDA_CSV_URL` pelo link publicado, entre aspas simples. Não use o link de edição/compartilhamento comum; use o link CSV gerado em **Publicar na Web**.
-5. Publique a atualização do site e teste se os eventos aparecem na semana correta.
+1. Compartilhe a planilha como **qualquer pessoa com o link — leitor**. A planilha e as informações nela ficam acessíveis publicamente; não coloque dados privados.
+2. No [Google Cloud Console](https://console.cloud.google.com/), selecione ou crie um projeto, habilite a **Google Sheets API** e crie uma chave de API.
+3. Restrinja a chave em **Restrições de aplicativo → Sites** para `https://iaded.com.br/*` e `https://www.iaded.com.br/*`; em **Restrições de API**, permita somente a **Google Sheets API**. A chave será usada no navegador e precisa dessas restrições.
+4. No arquivo `agenda-config.js`, cole a chave no campo `apiKey`. O ID da planilha e o ID da aba já estão preenchidos.
+5. Publique a alteração do site. Edições futuras dos eventos são feitas apenas na planilha; não exigem novo deploy.
 
-Depois disso, alterações na planilha serão refletidas no site quando o visitante abrir ou atualizar a página. O site não precisa de senha, token nem acesso de edição à conta Google.
+O site faz leitura somente dos valores das colunas A:E. O código consulta a aba pelo ID, então o nome da aba pode ser alterado sem atualizar o site. Se uma resposta falhar, a seção exibe uma mensagem de erro e o console registra o detalhe técnico.
 
 ## Integração automática do Instagram
 

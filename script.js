@@ -1,7 +1,5 @@
 // script.js
 
-const AGENDA_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKS-lRHc0Ln9fPBnqny3icsR-ZqOkmKN3umoX7_QUkuM-40MlpfRkXXy6nXfOcV2AvyWgxb9ZNmxSM/pub?gid=1194618886&single=true&output=csv';
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // Links compartilhados com #horarios devem abrir a página no início.
@@ -35,46 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-function parseCsv(content) {
-    const rows = [];
-    let row = [];
-    let field = '';
-    let quoted = false;
-
-    for (let index = 0; index < content.length; index += 1) {
-        const character = content[index];
-
-        if (quoted) {
-            if (character === '"' && content[index + 1] === '"') {
-                field += '"';
-                index += 1;
-            } else if (character === '"') {
-                quoted = false;
-            } else {
-                field += character;
-            }
-        } else if (character === '"' && field.length === 0) {
-            quoted = true;
-        } else if (character === ',') {
-            row.push(field);
-            field = '';
-        } else if (character === '\n' || character === '\r') {
-            row.push(field);
-            if (row.some(value => value.trim() !== '')) rows.push(row);
-            row = [];
-            field = '';
-            if (character === '\r' && content[index + 1] === '\n') index += 1;
-        } else {
-            field += character;
-        }
-    }
-
-    if (quoted) throw new Error('A planilha contém uma célula CSV com aspas sem fechamento.');
-    row.push(field);
-    if (row.some(value => value.trim() !== '')) rows.push(row);
-    return rows;
-}
-
 function normalizarCabecalho(value) {
     return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
 }
@@ -104,11 +62,10 @@ function parseAgendaDate(value) {
     return date;
 }
 
-function carregarEventosAgenda(csv) {
-    const rows = parseCsv(csv.replace(/^\uFEFF/, ''));
+function carregarEventosAgenda(rows) {
     if (rows.length < 1) throw new Error('A planilha está vazia.');
 
-    const headers = rows[0].map(normalizarCabecalho);
+    const headers = rows[0].map(value => normalizarCabecalho(String(value ?? '')));
     const requiredHeaders = ['data', 'horario', 'atividade', 'dirigente', 'ministrante'];
     const columns = Object.fromEntries(requiredHeaders.map(header => [header, headers.indexOf(header)]));
     const missingHeaders = requiredHeaders.filter(header => columns[header] === -1);
@@ -118,13 +75,13 @@ function carregarEventosAgenda(csv) {
 
     let invalidDateRows = 0;
     const events = rows.slice(1).map(row => {
-        const date = parseAgendaDate(row[columns.data] || '');
+        const date = parseAgendaDate(String(row[columns.data] ?? ''));
         const event = {
             date,
-            time: (row[columns.horario] || '').trim(),
-            activity: (row[columns.atividade] || '').trim(),
-            leader: (row[columns.dirigente] || '').trim(),
-            minister: (row[columns.ministrante] || '').trim()
+            time: String(row[columns.horario] ?? '').trim(),
+            activity: String(row[columns.atividade] ?? '').trim(),
+            leader: String(row[columns.dirigente] ?? '').trim(),
+            minister: String(row[columns.ministrante] ?? '').trim()
         };
         if (!date && event.activity) invalidDateRows += 1;
         return event;
@@ -134,6 +91,46 @@ function carregarEventosAgenda(csv) {
         console.warn(`${invalidDateRows} linha(s) da agenda foram ignoradas por terem data inválida.`);
     }
     return events.sort((first, second) => first.date - second.date || first.time.localeCompare(second.time));
+}
+
+async function buscarDadosAgenda() {
+    const config = window.AGENDA_CONFIG;
+    if (!config || !config.apiKey) {
+        throw new Error('Configure a chave restrita da Google Sheets API em agenda-config.js.');
+    }
+
+    const apiBase = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(config.spreadsheetId)}`;
+    const query = new URLSearchParams({ key: config.apiKey, _: Date.now().toString() });
+    const metadataResponse = await fetch(
+        `${apiBase}?fields=${encodeURIComponent('sheets(properties(sheetId,title))')}&${query}`,
+        { cache: 'no-store' }
+    );
+    if (!metadataResponse.ok) {
+        throw new Error(`Não foi possível consultar a planilha (HTTP ${metadataResponse.status}).`);
+    }
+
+    const metadata = await metadataResponse.json();
+    const sheet = metadata.sheets?.find(item => item.properties?.sheetId === config.sheetId);
+    if (!sheet) throw new Error(`A aba de ID ${config.sheetId} não foi encontrada na planilha.`);
+
+    const range = `${sheet.properties.title}!A:E`;
+    const valuesQuery = new URLSearchParams({
+        key: config.apiKey,
+        valueRenderOption: 'FORMATTED_VALUE',
+        majorDimension: 'ROWS',
+        _: Date.now().toString()
+    });
+    const valuesResponse = await fetch(
+        `${apiBase}/values/${encodeURIComponent(range)}?${valuesQuery}`,
+        { cache: 'no-store' }
+    );
+    if (!valuesResponse.ok) {
+        throw new Error(`Não foi possível ler os eventos da planilha (HTTP ${valuesResponse.status}).`);
+    }
+
+    const payload = await valuesResponse.json();
+    if (!Array.isArray(payload.values)) throw new Error('A API retornou dados inválidos para a agenda.');
+    return payload.values;
 }
 
 function inicioDaSemana(date) {
@@ -175,9 +172,7 @@ async function carregarAgenda() {
 
         if (weeklyEvents.length === 0) {
             eventsContainer.classList.add('hidden');
-            status.textContent = AGENDA_CSV_URL
-                ? 'Não há atividades cadastradas para esta semana.'
-                : 'A agenda estará disponível assim que a planilha for conectada.';
+            status.textContent = 'Não há atividades cadastradas para esta semana.';
             status.classList.remove('hidden');
             return;
         }
@@ -244,21 +239,15 @@ async function carregarAgenda() {
         renderizarSemana();
     });
 
-    if (!AGENDA_CSV_URL) {
-        renderizarSemana();
-        return;
-    }
-
     try {
-        const agendaUrl = new URL(AGENDA_CSV_URL);
-        agendaUrl.searchParams.set('_', Date.now().toString());
-        const response = await fetch(agendaUrl.toString(), { cache: 'no-store' });
-        if (!response.ok) throw new Error(`Resposta HTTP ${response.status}`);
-        events = carregarEventosAgenda(await response.text());
+        const values = await buscarDadosAgenda();
+        events = carregarEventosAgenda(values);
         renderizarSemana();
     } catch (error) {
         console.error('Não foi possível carregar a agenda da planilha.', error);
-        status.textContent = 'Não foi possível carregar a agenda. Tente novamente mais tarde.';
+        status.textContent = error.message.includes('Configure a chave')
+            ? 'A agenda está aguardando a configuração da API do Google Sheets.'
+            : 'Não foi possível carregar a agenda. Verifique a configuração da planilha e tente novamente.';
         status.classList.remove('hidden');
         eventsContainer.classList.add('hidden');
     }
