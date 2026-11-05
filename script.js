@@ -1,6 +1,6 @@
 // script.js
 
-const AGENDA_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZmVo_5u4IXYrz2vdDX2C84LypJuDnFlb3xzlZrg6QhZKrSh1TiKI0j35HbLCgA05qMpbUMmF_rRSZ/pub?gid=1532478975&single=true&output=csv';
+const AGENDA_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKS-lRHc0Ln9fPBnqny3icsR-ZqOkmKN3umoX7_QUkuM-40MlpfRkXXy6nXfOcV2AvyWgxb9ZNmxSM/pub?gid=1194618886&single=true&output=csv';
 
 document.addEventListener('DOMContentLoaded', () => {
 
