@@ -1,5 +1,7 @@
 // script.js
 
+const AGENDA_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZmVo_5u4IXYrz2vdDX2C84LypJuDnFlb3xzlZrg6QhZKrSh1TiKI0j35HbLCgA05qMpbUMmF_rRSZ/pub?gid=1532478975&single=true&output=csv';
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Links compartilhados com #horarios devem abrir a página no início.
@@ -29,8 +31,236 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     carregarFotosInstagram();
+    carregarAgenda();
 
 });
+
+function parseCsv(content) {
+    const rows = [];
+    let row = [];
+    let field = '';
+    let quoted = false;
+
+    for (let index = 0; index < content.length; index += 1) {
+        const character = content[index];
+
+        if (quoted) {
+            if (character === '"' && content[index + 1] === '"') {
+                field += '"';
+                index += 1;
+            } else if (character === '"') {
+                quoted = false;
+            } else {
+                field += character;
+            }
+        } else if (character === '"' && field.length === 0) {
+            quoted = true;
+        } else if (character === ',') {
+            row.push(field);
+            field = '';
+        } else if (character === '\n' || character === '\r') {
+            row.push(field);
+            if (row.some(value => value.trim() !== '')) rows.push(row);
+            row = [];
+            field = '';
+            if (character === '\r' && content[index + 1] === '\n') index += 1;
+        } else {
+            field += character;
+        }
+    }
+
+    if (quoted) throw new Error('A planilha contém uma célula CSV com aspas sem fechamento.');
+    row.push(field);
+    if (row.some(value => value.trim() !== '')) rows.push(row);
+    return rows;
+}
+
+function normalizarCabecalho(value) {
+    return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+}
+
+function parseAgendaDate(value) {
+    const text = value.trim();
+    let year;
+    let month;
+    let day;
+    let match = text.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+
+    if (match) {
+        day = Number(match[1]);
+        month = Number(match[2]);
+        year = Number(match[3]);
+    } else {
+        match = text.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (!match) return null;
+        year = Number(match[1]);
+        month = Number(match[2]);
+        day = Number(match[3]);
+    }
+
+    const date = new Date(year, month - 1, day);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+    date.setHours(0, 0, 0, 0);
+    return date;
+}
+
+function carregarEventosAgenda(csv) {
+    const rows = parseCsv(csv.replace(/^\uFEFF/, ''));
+    if (rows.length < 1) throw new Error('A planilha está vazia.');
+
+    const headers = rows[0].map(normalizarCabecalho);
+    const requiredHeaders = ['data', 'horario', 'atividade', 'dirigente', 'ministrante'];
+    const columns = Object.fromEntries(requiredHeaders.map(header => [header, headers.indexOf(header)]));
+    const missingHeaders = requiredHeaders.filter(header => columns[header] === -1);
+    if (missingHeaders.length) {
+        throw new Error(`Colunas ausentes na planilha: ${missingHeaders.join(', ')}.`);
+    }
+
+    let invalidDateRows = 0;
+    const events = rows.slice(1).map(row => {
+        const date = parseAgendaDate(row[columns.data] || '');
+        const event = {
+            date,
+            time: (row[columns.horario] || '').trim(),
+            activity: (row[columns.atividade] || '').trim(),
+            leader: (row[columns.dirigente] || '').trim(),
+            minister: (row[columns.ministrante] || '').trim()
+        };
+        if (!date && event.activity) invalidDateRows += 1;
+        return event;
+    }).filter(event => event.date && event.activity);
+
+    if (invalidDateRows) {
+        console.warn(`${invalidDateRows} linha(s) da agenda foram ignoradas por terem data inválida.`);
+    }
+    return events.sort((first, second) => first.date - second.date || first.time.localeCompare(second.time));
+}
+
+function inicioDaSemana(date) {
+    const start = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const daysSinceMonday = (start.getDay() + 6) % 7;
+    start.setDate(start.getDate() - daysSinceMonday);
+    return start;
+}
+
+function formatarDataAgenda(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `${day}/${month}/${date.getFullYear()}`;
+}
+
+async function carregarAgenda() {
+    const status = document.getElementById('agenda-status');
+    const weekLabel = document.getElementById('agenda-week-label');
+    const eventsContainer = document.getElementById('agenda-events-container');
+    const eventsBody = document.getElementById('agenda-events');
+    const toggleEventsButton = document.getElementById('agenda-toggle-events');
+    const previousButton = document.getElementById('agenda-previous-week');
+    const nextButton = document.getElementById('agenda-next-week');
+    if (!status || !weekLabel || !eventsContainer || !eventsBody || !toggleEventsButton || !previousButton || !nextButton) return;
+
+    let weekStart = inicioDaSemana(new Date());
+    let events = [];
+    let showAllEvents = false;
+    const visibleEventLimit = 4;
+
+    function renderizarSemana() {
+        showAllEvents = false;
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        weekLabel.textContent = `${formatarDataAgenda(weekStart)} a ${formatarDataAgenda(weekEnd)}`;
+
+        const weeklyEvents = events.filter(event => event.date >= weekStart && event.date <= weekEnd);
+        eventsBody.replaceChildren();
+
+        if (weeklyEvents.length === 0) {
+            eventsContainer.classList.add('hidden');
+            status.textContent = AGENDA_CSV_URL
+                ? 'Não há atividades cadastradas para esta semana.'
+                : 'A agenda estará disponível assim que a planilha for conectada.';
+            status.classList.remove('hidden');
+            return;
+        }
+
+        weeklyEvents.forEach((event, index) => {
+            const eventCard = document.createElement('article');
+            eventCard.className = 'flex flex-col gap-3 rounded-xl border border-cream-600 bg-cream-500 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6';
+            eventCard.classList.toggle('hidden', index >= visibleEventLimit);
+
+            const details = document.createElement('div');
+            details.className = 'min-w-0';
+
+            const date = document.createElement('p');
+            date.className = 'mb-1 text-xs font-medium text-blue-800';
+            date.textContent = formatarDataAgenda(event.date);
+            details.append(date);
+
+            const activity = document.createElement('h4');
+            activity.className = 'font-semibold text-blue-900';
+            activity.textContent = event.activity;
+            details.append(activity);
+
+            const people = [event.leader && `Dirigente: ${event.leader}`, event.minister && `Ministrante: ${event.minister}`]
+                .filter(Boolean);
+            if (people.length) {
+                const assignments = document.createElement('p');
+                assignments.className = 'mt-1 text-sm leading-relaxed text-gray-700';
+                assignments.textContent = people.join(' · ');
+                details.append(assignments);
+            }
+
+            eventCard.append(details);
+            if (event.time) {
+                const time = document.createElement('p');
+                time.className = 'w-fit shrink-0 rounded-lg bg-blue-900 px-3 py-2 text-sm font-semibold text-white';
+                time.textContent = event.time;
+                eventCard.append(time);
+            }
+            eventsBody.append(eventCard);
+        });
+
+        toggleEventsButton.classList.toggle('hidden', weeklyEvents.length <= visibleEventLimit);
+        toggleEventsButton.textContent = `Ver mais (${weeklyEvents.length - visibleEventLimit})`;
+        toggleEventsButton.setAttribute('aria-expanded', 'false');
+        status.classList.add('hidden');
+        eventsContainer.classList.remove('hidden');
+    }
+
+    toggleEventsButton.addEventListener('click', () => {
+        showAllEvents = !showAllEvents;
+        Array.from(eventsBody.children).forEach((eventCard, index) => {
+            eventCard.classList.toggle('hidden', !showAllEvents && index >= visibleEventLimit);
+        });
+        toggleEventsButton.textContent = showAllEvents ? 'Ver menos' : `Ver mais (${eventsBody.children.length - visibleEventLimit})`;
+        toggleEventsButton.setAttribute('aria-expanded', String(showAllEvents));
+    });
+
+    previousButton.addEventListener('click', () => {
+        weekStart.setDate(weekStart.getDate() - 7);
+        renderizarSemana();
+    });
+    nextButton.addEventListener('click', () => {
+        weekStart.setDate(weekStart.getDate() + 7);
+        renderizarSemana();
+    });
+
+    if (!AGENDA_CSV_URL) {
+        renderizarSemana();
+        return;
+    }
+
+    try {
+        const response = await fetch(AGENDA_CSV_URL, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`Resposta HTTP ${response.status}`);
+        events = carregarEventosAgenda(await response.text());
+        renderizarSemana();
+    } catch (error) {
+        console.error('Não foi possível carregar a agenda da planilha.', error);
+        status.textContent = 'Não foi possível carregar a agenda. Tente novamente mais tarde.';
+        status.classList.remove('hidden');
+        eventsContainer.classList.add('hidden');
+    }
+}
 
 function isInstagramMediaUrl(value) {
     if (typeof value !== 'string') return false;

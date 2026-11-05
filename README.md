@@ -2,6 +2,30 @@
 
 Site estático da IADED, publicado no GitHub Pages. A seção do Instagram é atualizada por um GitHub Actions agendado, usando a API oficial da Meta.
 
+## Agenda mensal pelo Google Sheets
+
+A agenda do site é carregada de uma planilha publicada para leitura. A equipe pode editar os eventos na planilha sem alterar o código do site. O visitante vê uma semana por vez e navega pelos botões **Semana anterior** e **Próxima semana**; a semana começa na segunda-feira.
+
+### Formato da planilha
+
+Crie uma aba com estes cabeçalhos, escritos exatamente assim:
+
+| Data | Horário | Atividade | Dirigente | Ministrante |
+|---|---|---|---|---|
+| 05/11/2026 | 19:00 | Culto de exemplo | Nome do dirigente | Nome do ministrante |
+
+Cada linha representa uma atividade. Para várias atividades na mesma data, use uma linha para cada uma. Formate a coluna **Data** como `dd/mm/aaaa`. O arquivo [`data/agenda-template.csv`](data/agenda-template.csv) contém os cabeçalhos para copiar ou importar.
+
+### Publicar e conectar a planilha
+
+1. No Google Sheets, crie a planilha e mantenha os dados públicos nela limitados ao que deve aparecer no site.
+2. Use **Arquivo → Compartilhar → Publicar na Web**. Selecione somente a aba da agenda e o formato **Valores separados por vírgula (.csv)**, então publique.
+3. Copie o link CSV publicado. A publicação torna os dados dessa aba acessíveis publicamente; não coloque nela informações privadas.
+4. No arquivo `script.js`, substitua o valor vazio de `AGENDA_CSV_URL` pelo link publicado, entre aspas simples. Não use o link de edição/compartilhamento comum; use o link CSV gerado em **Publicar na Web**.
+5. Publique a atualização do site e teste se os eventos aparecem na semana correta.
+
+Depois disso, alterações na planilha serão refletidas no site quando o visitante abrir ou atualizar a página. O site não precisa de senha, token nem acesso de edição à conta Google.
+
 ## Integração automática do Instagram
 
 O site não acessa o Instagram diretamente pelo navegador. Um workflow executado no GitHub busca as publicações e atualiza `data/instagram-feed.json`; essa lista contém somente dados públicos das fotos. A credencial fica em um GitHub Actions Secret e nunca é enviada ao visitante do site.
